@@ -2421,3 +2421,54 @@ class Top2Vec:
                       height=400,
                       background_color=background_color).generate_from_frequencies(word_score_dict))
         plt.title("Topic " + str(topic_num), loc='left', fontsize=25, pad=20)
+
+
+    def generate_topic_wordcloud_save(self, topic_num, file_name, background_color="black", reduced=False):
+        """
+        Create a word cloud for a topic.
+
+        A word cloud will be generated and displayed. The most semantically
+        similar words to the topic will have the largest size, less similar
+        words will be smaller. The size is determined using the cosine distance
+        of the word vectors from the topic vector.
+
+        Parameters
+        ----------
+        topic_num: int
+            The topic number to search.
+
+        background_color : str (Optional, default='white')
+            Background color for the word cloud image. Suggested options are:
+                * white
+                * black
+
+        reduced: bool (Optional, default False)
+            Original topics are used by default. If True the
+            reduced topics will be used.
+
+        Returns
+        -------
+        A matplotlib plot of the word cloud with the topic number will be
+        displayed.
+
+        """
+
+        if reduced:
+            self._validate_hierarchical_reduction()
+            self._validate_topic_num(topic_num, reduced)
+            word_score_dict = dict(zip(self.topic_words_reduced[topic_num],
+                                       softmax(self.topic_word_scores_reduced[topic_num])))
+        else:
+            self._validate_topic_num(topic_num, reduced)
+            word_score_dict = dict(zip(self.topic_words[topic_num],
+                                       softmax(self.topic_word_scores[topic_num])))
+
+        plt.figure(figsize=(16, 4),
+                   dpi=200)
+        plt.axis("off")
+        # plt.savefig(file_name)
+        plt.imsave(file_name,
+            WordCloud(width=1600,
+                      height=400,
+                      background_color=background_color).generate_from_frequencies(word_score_dict))
+        plt.title("Topic " + str(topic_num), loc='left', fontsize=25, pad=20)
