@@ -2467,8 +2467,9 @@ class Top2Vec:
                    dpi=200)
         plt.axis("off")
         # plt.savefig(file_name)
-        plt.imsave(file_name,
-            WordCloud(width=1600,
+        plt.title("Topic " + str(topic_num), loc='left', fontsize=25, pad=20)
+        figure_to_save = plt.imshow(WordCloud(width=1600,
                       height=400,
                       background_color=background_color).generate_from_frequencies(word_score_dict))
-        plt.title("Topic " + str(topic_num), loc='left', fontsize=25, pad=20)
+        plt.savefig(file_name)
+        
