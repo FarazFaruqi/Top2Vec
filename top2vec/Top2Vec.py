@@ -256,6 +256,7 @@ class Top2Vec:
                 hs = 1
                 negative = 0
                 epochs = 2000
+                logger.info('This will run for 2000 epoch')
             elif speed == "test-learn":
                 hs = 0
                 negative = 5
